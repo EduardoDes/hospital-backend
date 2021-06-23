@@ -6,10 +6,17 @@ const Usuario = require('../models/usuario');
 
 const getUsuarios = async (req, res) => {
 
+    const desde = Number(req.query.desde) || 0;
 
-    const usuarios = await Usuario.find({},'nombre rol email google');
+   const [usuarios , totalUsuarios] = await Promise.all([   //Resolver mas de 1 await de manera simultanea , entregar parametros en el orden de las promesas
 
-    res.json({ok : true , usuarios, uid: req.uid})
+        Usuario.find({},'nombre rol email google imagen')
+                                  .skip(desde)
+                                  .limit(5),
+      Usuario.countDocuments()
+    ])
+
+    res.json({ok : true , usuarios, uid: req.uid,totalUsuarios})
 
 }
 

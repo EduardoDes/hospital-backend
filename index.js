@@ -16,6 +16,9 @@ app.use(express.json());
 //Conexion a BD
 dbConnection();
 
+//Directorio publico
+app.use(express.static('public'));
+
 
 //Rutas
 
